@@ -1,4 +1,9 @@
 {% extends 'layout.html' %}
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'plugins/bootstrap-datepicker/css/bootstrap-datepicker.min.css' %}">
+{% endblock %}
 
 {% block content %}
 
@@ -8,7 +13,7 @@
                 <h3 class="panel-title">Add User</h3>
             </div>
             <div class="panel-body">
-                <form method="post">
+                <form method="post" novalidate>
                     {% csrf_token %}
 
                     {% for field in form %}
@@ -26,4 +31,18 @@
         </div>
     </div>
 
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'plugins/bootstrap-datepicker/js/bootstrap-datepicker.js' %}"></script>
+    <script>
+        $(function (){
+            $('#id_create_time').datepicker({
+                format: 'yyyy-mm-dd',
+                startDate: '0',
+                language: 'en-us',
+                autoclose: true
+            });
+        })
+    </script>
 {% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <div class="input-container">
+        <form method="POST">
+            {% csrf_token %}
+            <input type="text" name="input_data" class="big-input" placeholder="Enter your text here">
+            <button type="submit" class="submit-button">Submit</button>
+        </form>
+    </div>
+{% endblock %}

@@ -10,6 +10,7 @@
             border-radius: 0;
         }
     </style>
+    {% block css %}{% endblock %}
 </head>
 <body>
 <nav class="navbar navbar-default">
@@ -23,7 +24,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Employment Management System</a>
+            <a class="navbar-brand" href="/">Employment Management System</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -31,6 +32,7 @@
             <ul class="nav navbar-nav">
                 <li><a href="/department/list">Department Manage</a></li>
                 <li><a href="/user/list">User Manage</a></li>
+                <li><a href="/school/list">School Manage</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="#">Login</a></li>
@@ -56,5 +58,6 @@
 
 <script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
 <script src="{% static 'plugins/bootstrap-3.4.1-dist/js/bootstrap.min.js' %}"></script>
+{% block js %}{% endblock %}
 </body>
 </html>

@@ -1,6 +1,10 @@
 from django.shortcuts import render, redirect
 from django import forms
 from app01 import models
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
+def index(request):
+    return render(request, 'index.html')
 
 def depart_list(request):
     '''Department List'''
@@ -60,9 +64,10 @@ class UserModelForm(forms.ModelForm):
         #     'name': forms.TextInput(attrs={'class': 'form-control'}),
         # }
 
+    # Use Bootstrap Style
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-
+        # Loop and find all widgets, add class = 'form-control'
         for name, field in self.fields.items():
             field.widget.attrs = {'class': 'form-control'}
 
@@ -103,3 +108,76 @@ def user_edit(request, nid):
         return redirect('/user/list/')
 
     return render(request, 'user_edit.html', {'form': form})
+
+
+def school_list(request):
+    '''School List'''
+    # Initialize Search Box
+    data_dict = {}
+
+    # Obtain user's search value
+    search_data = request.GET.get('q', "")
+
+    # If user input a search content, output the target
+    if search_data:
+        # Find the target
+        data_dict["name__contains"] = search_data
+
+    # If user doesn't input, list all
+    queryset = models.SchoolInfo.objects.filter(**data_dict).order_by('id')
+
+    paginator = Paginator(queryset, 10) # Initialize a paging object, displayed per page 10
+    page = request.GET.get('page')
+    try:
+        queryset = paginator.page(page)
+    except PageNotAnInteger:
+        queryset = paginator.page(1)
+    except EmptyPage:
+        queryset = paginator.page(paginator.num_pages)
+    # is_paginated = True if paginator.num_pages > 1 else False  # 如果页数小于1不使用分页
+    # context = {'page_obj': page_obj, 'is_paginated': is_paginated}
+
+    return render(request, 'school_list.html', locals())
+
+
+class SchoolModelForm(forms.ModelForm):
+    class Meta:
+        model = models.SchoolInfo
+        fields = ['name', 'district', 'status']
+
+    # Use Bootstrap Style
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Loop and find all widgets, add class = 'form-control'
+        for name, field in self.fields.items():
+            field.widget.attrs = {'class': 'form-control'}
+
+def school_add(request):
+    '''Add School'''
+    if request.method == 'GET':
+        form = SchoolModelForm()
+        return render(request, 'school_add.html', {'form':form})
+
+    form = SchoolModelForm(data=request.POST)
+    if form.is_valid():
+        form.save()
+        return redirect('/school/list/')
+    else:
+        print(form.errors)
+
+
+def school_edit(request, nid):
+    '''Edit School'''
+    row_object = models.SchoolInfo.objects.filter(id=nid).first()
+
+    if request.method == 'GET':
+        form = SchoolModelForm(instance=row_object)
+        return render(request, 'school_edit.html', {'form': form})
+
+    form = SchoolModelForm(data=request.POST, instance=row_object)
+    if form.is_valid():
+        form.save()
+        return redirect('/school/list/')
+
+    return render(request, 'school_edit.html', {'form': form})
+

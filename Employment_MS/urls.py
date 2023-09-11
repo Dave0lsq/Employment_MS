@@ -16,10 +16,17 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from chatbot import views as chatviews
 from app01 import views
 
 urlpatterns = [
     # path('admin/', admin.site.urls),
+
+    path('', chatviews.chatbot, name='chatbot'),
+    path('add_question/', chatviews.add_question, name='add_question'),
+    # path('login/', chatviews.login, name='login'),
+    # path('register/', chatviews.register, name='register'),
+    # path('logout/', chatviews.logout, name='logout'),
 
     #Department Manage
     path('department/list/', views.depart_list),
@@ -32,4 +39,10 @@ urlpatterns = [
     path('user/add/', views.user_add),
     path('user/delete/', views.user_delete),
     path('user/<int:nid>/edit/', views.user_edit),
+
+    #School Manage
+    path('school/list/', views.school_list),
+    path('school/add/', views.school_add),
+    path('school/<int:nid>/edit/', views.school_edit)
+
 ]

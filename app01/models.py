@@ -29,3 +29,35 @@ class UserInfo(models.Model):
     )
 
     gender = models.SmallIntegerField(verbose_name='Gender', choices=gender_choices)
+
+
+class SchoolInfo(models.Model):
+    name = models.CharField(verbose_name='School Name', max_length=64)
+
+    district_choices = (
+        (1, 'Wan Chai'),
+        (2, 'Central and Western'),
+        (3, 'Sai Kung'),
+        (4, 'Eastern'),
+        (5, 'Southern'),
+        (6, 'Tsuen Wan'),
+        (7, 'North'),
+        (8, 'Kowloon City'),
+        (9, 'Yau Tsim Mong'),
+        (10, 'Sha Tin'),
+        (11, 'Islands'),
+        (12, 'Yuen Long'),
+        (13, 'Tai Po'),
+        (14, 'Wong Tai Sin'),
+        (15, 'Tuen Mun'),
+        (16, 'Kwai Tsing'),
+        (17, 'Sham Shui Po'),
+        (18, 'Kwun Tong'),
+    )
+    district = models.SmallIntegerField(verbose_name='District', choices=district_choices)
+
+    status_choices = (
+        (0, 'Not Promoted'),
+        (1, 'Promoted'),
+    )
+    status = models.SmallIntegerField(verbose_name='Status', choices=status_choices)

@@ -5,7 +5,7 @@ from django.http import JsonResponse
 from .models import EssayQuestion
 import random
 
-openai_api_key = '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'
+openai_api_key = ''
 openai.api_key = openai_api_key
 
 
